@@ -10,6 +10,19 @@ public class RecordMerger {
 	public static final String PATH="./" + FILENAME_COMBINED;
 	
 	public static RecordTable mergeTwoTables(RecordTable t1, RecordTable t2){
+		
+		if(t1.isEmpty() && t2.isEmpty()){
+			return t1;
+		}
+		
+		if(t1.isEmpty() && !t2.isEmpty()){
+			return t2;
+		}
+		
+		if(!t1.isEmpty() && t2.isEmpty()){
+			return t1;
+		}
+		
 		RecordTable merged = new RecordTable();
 		
 		ArrayList<String> headers1=t1.getHeaders();
@@ -139,7 +152,6 @@ public class RecordMerger {
 		
 		//sort table with RecordComparatorByID
 		merged.sortTable(new RecordComparatorByID());
-		merged.printTable();
 		return merged;
 	}
 	
@@ -174,9 +186,6 @@ public class RecordMerger {
 			System.err.println("Usage: java RecordMerger file1 [ file2 [...] ]");
 			System.exit(1);
 		}
-		String temp="ddddss";
-		temp=temp.replace("s","f");
-		System.out.println(temp);
 		
 		Path[] paths = new Path[args.length];
 		TableReader[] readers = new TableReader[args.length];
@@ -189,6 +198,7 @@ public class RecordMerger {
 			tables[i].printTable();
 		}
 		RecordTable merged = mergeMultipleTables(tables);
+		merged.printTable();
 		
 		TableWriter writer= new TableWriterFactory(Paths.get(PATH)).getWriter();
 		writer.writeTable(merged, "UTF-8");

@@ -84,10 +84,20 @@ public class RecordTable {
         }
 	}
 	
+	public boolean isEmpty(){
+		return records.size()==0;
+	}
+	
 	public void printTable(){
-		printHeaders();
-		for (Record r : records){
-			r.printRecord();
+		
+		if (isEmpty()){
+			System.out.println("------------------------EMPTY TABLE--------------------------");
+		}
+		else{
+			printHeaders();
+			for (Record r : records){
+				r.printRecord();
+			}
 		}
 		System.out.print("========================================================================");
 		System.out.println("======================================================================");
